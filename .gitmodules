@@ -1,0 +1,9 @@
+[submodule "git_modules/bmv2"]
+	path = git_modules/bmv2
+	url = https://github.com/lucasbfernandes/behavioral-model
+[submodule "git_modules/floodlight"]
+	path = git_modules/floodlight
+	url = https://github.com/floodlight/floodlight.git
+[submodule "git_modules/p4c-bm"]
+	path = git_modules/p4c-bm
+	url = https://github.com/p4lang/p4c-bm.git
