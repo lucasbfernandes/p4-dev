@@ -2,8 +2,9 @@
 
 set -e
 
+THIS_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 TARGET_NAME=$1
-TARGETS_DIR="targets"
+TARGETS_DIR="$THIS_DIR/../targets"
 P4_DIR="p4"
 BUILD_SCRIPT="build.sh"
 RUN_SCRIPT="run.sh"
