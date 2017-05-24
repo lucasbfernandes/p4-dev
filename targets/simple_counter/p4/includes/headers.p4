@@ -29,8 +29,19 @@ header_type routing_metadata_t {
     }
 }
 
+header_type intrinsic_metadata_t {
+    fields {
+        mcast_grp : 4;
+        egress_rid : 4;
+        mcast_hash : 16;
+        lf_field_list: 32;
+    }
+}
+
 header ethernet_t ethernet;
 
 header ipv4_t ipv4;
 
 metadata routing_metadata_t routing_metadata;
+
+metadata intrinsic_metadata_t intrinsic_metadata;

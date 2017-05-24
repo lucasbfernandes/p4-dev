@@ -134,6 +134,30 @@
             ],
             "length_exp": null,
             "max_length": null
+        },
+        {
+            "name": "intrinsic_metadata_t",
+            "id": 4,
+            "fields": [
+                [
+                    "mcast_grp",
+                    4
+                ],
+                [
+                    "egress_rid",
+                    4
+                ],
+                [
+                    "mcast_hash",
+                    16
+                ],
+                [
+                    "lf_field_list",
+                    32
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
         }
     ],
     "headers": [
@@ -159,6 +183,12 @@
             "name": "routing_metadata",
             "id": 3,
             "header_type": "routing_metadata_t",
+            "metadata": true
+        },
+        {
+            "name": "intrinsic_metadata",
+            "id": 4,
+            "header_type": "intrinsic_metadata_t",
             "metadata": true
         }
     ],
@@ -530,6 +560,22 @@
         [
             "standard_metadata",
             "_padding"
+        ],
+        [
+            "intrinsic_metadata",
+            "mcast_grp"
+        ],
+        [
+            "intrinsic_metadata",
+            "egress_rid"
+        ],
+        [
+            "intrinsic_metadata",
+            "mcast_hash"
+        ],
+        [
+            "intrinsic_metadata",
+            "lf_field_list"
         ]
     ]
 }

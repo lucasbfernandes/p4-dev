@@ -6,4 +6,4 @@ source $THIS_DIR/../../tools/defaults.sh
 
 THIS_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
-$P4C_BM_SCRIPT p4/simple_counter.p4 --json build/simple_counter.json
+$CLI_PATH $THIS_DIR/build/simple_counter.json < $THIS_DIR/commands.txt
