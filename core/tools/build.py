@@ -1,62 +1,51 @@
 #!/usr/bin/env python
 
-import subprocess
 import defaults
-
-def execute_commands(commands, cwd):
-	""
-	for command in commands:
-		subprocess.call(command, shell = False, cwd = cwd)
+import helpers
 
 def install_dependencies():
 	""
 	commands = [
-		["sudo", "apt-get", "install", "-y", "build-essential", "ant", "maven", "python-dev"]
+		["sudo", "apt-get", "install", "-y", "build-essential", "ant", "maven", "python-dev", "mininet"]
 	]
-	execute_commands(commands)
+	helpers.execute_commands(commands, defaults.APP_DIR)
 
 def initialize_modules():
 	""
 	commands = [
 		["git", "submodule", "update", "--init", "--recursive"]
 	]
-	execute_commands(commands)
+	helpers.execute_commands(commands, defaults.APP_DIR)
 
 def install_bmv2():
 	""
 	commands = [
-		["cd", defaults.BMV2_DIR],
 		["bash", "install_deps.sh"],
 		["bash", "autogen.sh"],
 		["bash", "configure"],
 		["make"],
-		["sudo", "make", "install"],
-		["cd", defaults.BASE_DIR]
+		["sudo", "make", "install"]
 	]
-	execute_commands(commands)
+	helpers.execute_commands(commands, defaults.BMV2_DIR)
 
 def install_p4cbm():
 	""
 	commands = [
-		["cd", defaults.P4C_BM_DIR],
 		["sudo", "pip", "install", "-r", "requirements.txt"],
 		["sudo", "python", "setup.py", "install"],
-		["cd", defaults.BASE_DIR]
 	]
-	execute_commands(commands)
+	helpers.execute_commands(commands, defaults.P4C_BM_DIR)
 
 def install_floodlight():
 	""
 	commands = [
-		["cd", defaults.FLOODLIGHT_DIR],
 		["git", "submodule", "init"],
 		["git", "submodule", "update"],
 		["ant"],
 		["sudo", "mkdir", "/var/lib/floodlight"],
 		["sudo", "chmod", "777", "/var/lib/floodlight"],
-		["cd", defaults.BASE_DIR]
 	]
-	execute_commands(commands)
+	helpers.execute_commands(commands, defaults.FLOODLIGHT_DIR)
 
 def install_modules():
 	""
@@ -65,5 +54,7 @@ def install_modules():
 	install_p4cbm()
 	install_floodlight()
 
-install_dependencies()
-install_modules()
+if __name__ == '__main__':
+
+	install_dependencies()
+	install_modules()
