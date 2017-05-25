@@ -6,7 +6,8 @@ import helpers
 def install_dependencies():
 	""
 	commands = [
-		["sudo", "apt-get", "install", "-y", "build-essential", "ant", "maven", "python-dev", "mininet"]
+		["sudo", "apt-get", "install", "-y", "build-essential", "ant", "maven", "python-dev", "mininet"],
+		["sudo", "pip", "install", "Jinja2"]
 	]
 	helpers.execute_commands(commands, defaults.APP_DIR)
 
