@@ -11,5 +11,5 @@ def execute_commands(commands, cwd):
 
 def render_template(file, context):
 	""
-	j2_env = jinja2.Environment(loader = FileSystemLoader(defaults.TEMPLATES_DIR))
+	j2_env = jinja2.Environment(loader = jinja2.FileSystemLoader(defaults.TEMPLATES_DIR))
 	return j2_env.get_template(file).render(context)

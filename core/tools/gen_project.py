@@ -38,13 +38,23 @@ def gen_mininet(project_name):
 	]
 	helpers.execute_commands(commands, defaults.PROJECTS_DIR + project_name)
 
+def gen_file(file, context, path):
+	""
+	template = helpers.render_template(file, context)
+	commands = [
+		["touch", file],
+		["echo", template, ">", file]
+	]
+	helpers.execute_commands(commands, path)
+
 def gen_root_files(project_name):
 	""
-	commands = [
-		["touch", "README.md"],
-		["cat", defaults.CONTENT_README, ">", "README.md"]
-	]
-	helpers.execute_commands(commands, defaults.PROJECTS_DIR + project_name)
+	files = ["README.md"]
+	context = {'project_name' : project_name}
+	path = defaults.PROJECTS_DIR + project_name
+
+	for file in files:
+		gen_file(file, context, path)
 
 def gen_folders(project_name):
 	""
@@ -55,7 +65,10 @@ def gen_folders(project_name):
 	gen_mininet(project_name)
 
 def gen_files(project_name):
-	pass
+	""
+	gen_root_files(project_name)
 
 if __name__ == '__main__':
-	pass
+	
+	gen_folders("teste")
+	gen_files("teste")
