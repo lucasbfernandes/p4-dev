@@ -55,7 +55,7 @@ def gen_file(file, context, path):
 def gen_root_files(project_name):
 	""
 	path = defaults.PROJECTS_PATH + project_name + "/"
-	files = ["README.md"]
+	files = ["DOC.md"]
 	context = {'project_name' : project_name}
 
 	for file in files:
