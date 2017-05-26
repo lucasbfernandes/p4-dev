@@ -9,14 +9,14 @@ def install_dependencies():
 		["sudo", "apt-get", "install", "-y", "build-essential", "ant", "maven", "python-dev", "mininet"],
 		["sudo", "pip", "install", "Jinja2"]
 	]
-	helpers.execute_commands(commands, defaults.APP_DIR)
+	helpers.execute_commands(commands, defaults.APP_PATH)
 
 def initialize_modules():
 	""
 	commands = [
 		["git", "submodule", "update", "--init", "--recursive"]
 	]
-	helpers.execute_commands(commands, defaults.APP_DIR)
+	helpers.execute_commands(commands, defaults.APP_PATH)
 
 def install_bmv2():
 	""
@@ -27,7 +27,7 @@ def install_bmv2():
 		["make"],
 		["sudo", "make", "install"]
 	]
-	helpers.execute_commands(commands, defaults.BMV2_DIR)
+	helpers.execute_commands(commands, defaults.BMV2_PATH)
 
 def install_p4cbm():
 	""
@@ -35,7 +35,7 @@ def install_p4cbm():
 		["sudo", "pip", "install", "-r", "requirements.txt"],
 		["sudo", "python", "setup.py", "install"],
 	]
-	helpers.execute_commands(commands, defaults.P4C_BM_DIR)
+	helpers.execute_commands(commands, defaults.P4C_BM_PATH)
 
 def install_floodlight():
 	""
@@ -46,7 +46,7 @@ def install_floodlight():
 		["sudo", "mkdir", "/var/lib/floodlight"],
 		["sudo", "chmod", "777", "/var/lib/floodlight"],
 	]
-	helpers.execute_commands(commands, defaults.FLOODLIGHT_DIR)
+	helpers.execute_commands(commands, defaults.FLOODLIGHT_PATH)
 
 def install_modules():
 	""
