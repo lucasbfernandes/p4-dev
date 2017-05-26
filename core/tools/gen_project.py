@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import argparse
 import defaults
 import helpers
 
@@ -73,7 +74,18 @@ def gen_files(project_name):
 	""
 	gen_root_files(project_name)
 
+def gen_project(args):
+	""
+	gen_folders(args.project_name)
+	gen_files(args.project_name)
+
+def get_args():
+	"" 
+	parser = argparse.ArgumentParser(description = 'Generates a new project workspace.')
+	parser.add_argument('project_name', help = "Name of the project.")
+	return parser.parse_args()
+
 if __name__ == '__main__':
-	
-	gen_folders("teste")
-	gen_files("teste")
+
+	args = get_args()
+	gen_project(args)
