@@ -44,7 +44,7 @@ def gen_mininet(project_name):
 	]
 	helpers.execute_commands(commands, path)
 
-def gen_file(file, context, path):
+def gen_template_file(file, context, path):
 	""
 	template = helpers.render_template(file, context)
 	commands = [
@@ -53,14 +53,54 @@ def gen_file(file, context, path):
 	helpers.execute_commands(commands, path)
 	helpers.write_file(path + file, template)
 
+def gen_file(file, path):
+	""
+	commands = [
+		["touch", file]
+	]
+	helpers.execute_commands(commands, path)	
+
 def gen_root_files(project_name):
 	""
 	path = defaults.PROJECTS_PATH + project_name + "/"
-	files = ["DOC.md"]
+	template_files = ["DOC.md"]
 	context = {'project_name' : project_name}
 
+	for file in template_files:
+		gen_template_file(file, context, path)
+
+def gen_p4_files(project_name):
+	""
+	path = defaults.PROJECTS_PATH + project_name + "/" + defaults.PROJECT_P4_NAME
+	files = [project_name + ".p4"]
+
 	for file in files:
-		gen_file(file, context, path)
+		gen_file(file, path)
+
+def gen_util_files(project_name):
+	""
+	path = defaults.PROJECTS_PATH + project_name + "/" + defaults.PROJECT_UTIL_NAME
+	files = [defaults.PROJECT_COMMANDS_NAME]
+
+	for file in files:
+		gen_file(file, path)
+
+def gen_tools_files(project_name):
+	""
+	path = defaults.PROJECTS_PATH + project_name + "/" + defaults.PROJECT_TOOLS_NAME
+	template_files = ["apply_commands.py", "build_project.py", "run_cli.py", "run_project.py"]
+	context = {'project_name' : project_name}
+
+	for file in template_files:
+		gen_template_file(file, context, path)
+
+def gen_mininet_files(project_name):
+	""
+	path = defaults.PROJECTS_PATH + project_name + "/" + defaults.PROJECT_MININET_NAME
+	files = [project_name + ".py"]
+
+	for file in files:
+		gen_file(file, path)
 
 def gen_folders(project_name):
 	""
@@ -73,6 +113,10 @@ def gen_folders(project_name):
 def gen_files(project_name):
 	""
 	gen_root_files(project_name)
+	gen_p4_files(project_name)
+	gen_util_files(project_name)
+	gen_tools_files(project_name)
+	gen_mininet_files(project_name)
 
 def gen_project(args):
 	""

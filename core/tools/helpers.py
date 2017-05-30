@@ -4,10 +4,10 @@ import subprocess
 import jinja2
 import defaults
 
-def execute_commands(commands, cwd):
+def execute_commands(commands, cwd, stdin = None):
 	""
 	for command in commands:
-		subprocess.call(command, shell = False, cwd = cwd)
+		subprocess.call(command, shell = False, cwd = cwd, stdin = stdin)
 
 def render_template(file, context):
 	""
