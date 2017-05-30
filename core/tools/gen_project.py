@@ -44,6 +44,14 @@ def gen_mininet(project_name):
 	]
 	helpers.execute_commands(commands, path)
 
+def gen_build(project_name):
+	""
+	path = defaults.PROJECTS_PATH + project_name + "/"
+	commands = [
+		["mkdir", defaults.PROJECT_BUILD_NAME]
+	]
+	helpers.execute_commands(commands, path)
+
 def gen_template_file(file, context, path):
 	""
 	template = helpers.render_template(file, context)
@@ -109,6 +117,7 @@ def gen_folders(project_name):
 	gen_util(project_name)
 	gen_tools(project_name)
 	gen_mininet(project_name)
+	gen_build(project_name)
 
 def gen_files(project_name):
 	""

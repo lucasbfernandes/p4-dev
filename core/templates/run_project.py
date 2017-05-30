@@ -3,9 +3,10 @@
 import sys
 import os
 
-sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/../tools/")
+sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/../../../core/tools/")
 
 import defaults
+import helpers
 
 def run_mininet(project_name):
 	""

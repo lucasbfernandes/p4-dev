@@ -22,4 +22,4 @@ def apply_commands(project_name):
 
 if __name__ == '__main__':
 
-	apply_commands("{{ project_name }}")
+	apply_commands("simple_counter")

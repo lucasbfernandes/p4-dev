@@ -8,18 +8,23 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/../../../core/too
 import defaults
 import helpers
 
-def apply_commands(project_name):
+def gen_project_json(project_name):
 	""
 	path = defaults.PROJECTS_PATH + project_name + "/"
-	stdin = open(defaults.PROJECT_UTIL_NAME + defaults.PROJECT_COMMANDS_NAME)
 	commands = [
 		[
-			defaults.BMV2_CLI_PATH,
+			defaults.P4C_BM_SCRIPT,
+			defaults.PROJECT_P4_NAME + project_name + ".p4",
+			"--json",
 			defaults.PROJECT_BUILD_NAME + project_name + ".json"
 		]
 	]
-	helpers.execute_commands(commands, path, stdin)
+	helpers.execute_commands(commands, path)
+
+def build_project(project_name):
+	""
+	gen_project_json(project_name)
 
 if __name__ == '__main__':
 
-	apply_commands("{{ project_name }}")
+	build_project("simple_counter")
