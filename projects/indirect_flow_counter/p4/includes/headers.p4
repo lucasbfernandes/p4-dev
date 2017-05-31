@@ -23,14 +23,6 @@ header_type ipv4_t {
     }
 }
 
-header_type routing_metadata_t {
-    fields {
-        meta_ipv4 : 32;
-    }
-}
-
 header ethernet_t ethernet;
 
 header ipv4_t ipv4;
-
-metadata routing_metadata_t routing_metadata;
