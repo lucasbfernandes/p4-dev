@@ -122,18 +122,6 @@
             ],
             "length_exp": null,
             "max_length": null
-        },
-        {
-            "name": "routing_metadata_t",
-            "id": 3,
-            "fields": [
-                [
-                    "meta_ipv4",
-                    32
-                ]
-            ],
-            "length_exp": null,
-            "max_length": null
         }
     ],
     "headers": [
@@ -154,12 +142,6 @@
             "id": 2,
             "header_type": "ipv4_t",
             "metadata": false
-        },
-        {
-            "name": "routing_metadata",
-            "id": 3,
-            "header_type": "routing_metadata_t",
-            "metadata": true
         }
     ],
     "header_stacks": [],
@@ -262,12 +244,12 @@
     "meter_arrays": [],
     "actions": [
         {
-            "name": "set_dst",
+            "name": "set_destination",
             "id": 0,
             "runtime_data": [
                 {
-                    "name": "meta_ipv4",
-                    "bitwidth": 32
+                    "name": "dmac",
+                    "bitwidth": 48
                 },
                 {
                     "name": "port",
@@ -281,8 +263,8 @@
                         {
                             "type": "field",
                             "value": [
-                                "routing_metadata",
-                                "meta_ipv4"
+                                "ethernet",
+                                "dstAddr"
                             ]
                         },
                         {
@@ -308,65 +290,13 @@
                     ]
                 }
             ]
-        },
-        {
-            "name": "set_dmac",
-            "id": 1,
-            "runtime_data": [
-                {
-                    "name": "dmac",
-                    "bitwidth": 48
-                }
-            ],
-            "primitives": [
-                {
-                    "op": "modify_field",
-                    "parameters": [
-                        {
-                            "type": "field",
-                            "value": [
-                                "ethernet",
-                                "dstAddr"
-                            ]
-                        },
-                        {
-                            "type": "runtime_data",
-                            "value": 0
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "name": "_drop",
-            "id": 2,
-            "runtime_data": [],
-            "primitives": [
-                {
-                    "op": "count",
-                    "parameters": [
-                        {
-                            "type": "counter_array",
-                            "value": "my_indirect_counter"
-                        },
-                        {
-                            "type": "hexstr",
-                            "value": "0x0"
-                        }
-                    ]
-                },
-                {
-                    "op": "drop",
-                    "parameters": []
-                }
-            ]
         }
     ],
     "pipelines": [
         {
             "name": "ingress",
             "id": 0,
-            "init_table": "ipv4_dst",
+            "init_table": "forward",
             "tables": [
                 {
                     "name": "forward",
@@ -381,33 +311,6 @@
                         {
                             "match_type": "exact",
                             "target": [
-                                "routing_metadata",
-                                "meta_ipv4"
-                            ],
-                            "mask": null
-                        }
-                    ],
-                    "actions": [
-                        "set_dmac"
-                    ],
-                    "next_tables": {
-                        "set_dmac": null
-                    },
-                    "base_default_next": null
-                },
-                {
-                    "name": "ipv4_dst",
-                    "id": 1,
-                    "match_type": "exact",
-                    "type": "simple",
-                    "max_size": 16384,
-                    "with_counters": false,
-                    "direct_meters": null,
-                    "support_timeout": false,
-                    "key": [
-                        {
-                            "match_type": "exact",
-                            "target": [
                                 "ipv4",
                                 "dstAddr"
                             ],
@@ -415,12 +318,12 @@
                         }
                     ],
                     "actions": [
-                        "set_dst"
+                        "set_destination"
                     ],
                     "next_tables": {
-                        "set_dst": "forward"
+                        "set_destination": null
                     },
-                    "base_default_next": "forward"
+                    "base_default_next": null
                 }
             ],
             "action_profiles": [],
@@ -429,36 +332,8 @@
         {
             "name": "egress",
             "id": 1,
-            "init_table": "dispatch",
-            "tables": [
-                {
-                    "name": "dispatch",
-                    "id": 2,
-                    "match_type": "exact",
-                    "type": "simple",
-                    "max_size": 16384,
-                    "with_counters": false,
-                    "direct_meters": null,
-                    "support_timeout": false,
-                    "key": [
-                        {
-                            "match_type": "exact",
-                            "target": [
-                                "standard_metadata",
-                                "egress_port"
-                            ],
-                            "mask": null
-                        }
-                    ],
-                    "actions": [
-                        "_drop"
-                    ],
-                    "next_tables": {
-                        "_drop": null
-                    },
-                    "base_default_next": null
-                }
-            ],
+            "init_table": null,
+            "tables": [],
             "action_profiles": [],
             "conditionals": []
         }
@@ -469,17 +344,11 @@
     "field_lists": [],
     "counter_arrays": [
         {
-            "name": "my_counter",
+            "name": "my_direct_counter",
             "id": 0,
             "is_direct": true,
             "binding": "forward",
             "size": null
-        },
-        {
-            "name": "my_indirect_counter",
-            "id": 1,
-            "is_direct": false,
-            "size": 1
         }
     ],
     "register_arrays": [],
