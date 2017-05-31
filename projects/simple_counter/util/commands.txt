@@ -1,4 +1,0 @@
-table_add ipv4_dst set_dst 10.0.1.10 => 10.0.1.10 2
-table_add ipv4_dst set_dst 10.0.0.10 => 10.0.0.10 1
-table_add forward set_dmac 10.0.1.10 => 00:04:00:00:00:01
-table_add forward set_dmac 10.0.0.10 => 00:04:00:00:00:00
