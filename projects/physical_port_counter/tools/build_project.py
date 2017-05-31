@@ -27,4 +27,4 @@ def build_project(project_name):
 
 if __name__ == '__main__':
 
-	build_project("indirect_flow_counter")
+	build_project("physical_port_counter")

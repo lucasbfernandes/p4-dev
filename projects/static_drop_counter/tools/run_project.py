@@ -30,4 +30,4 @@ def run_project(project_name):
 
 if __name__ == '__main__':
 
-	run_project("indirect_flow_counter")
+	run_project("static_drop_counter")
