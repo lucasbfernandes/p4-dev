@@ -17,6 +17,7 @@ def run_mininet(project_name):
 			defaults.PROJECT_MININET_NAME + project_name + ".py",
 			"--behavioral-exe",
 			defaults.BMV2_INTERPRETER_PATH,
+			"--num-hosts", "3",
 			"--json",
 			defaults.PROJECT_BUILD_NAME + project_name + ".json"
 		]

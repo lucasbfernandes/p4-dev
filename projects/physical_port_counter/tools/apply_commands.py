@@ -11,7 +11,7 @@ import helpers
 def apply_commands(project_name):
 	""
 	path = defaults.PROJECTS_PATH + project_name + "/"
-	stdin = open(defaults.PROJECT_UTIL_NAME + defaults.PROJECT_COMMANDS_NAME)
+	stdin = open(path + defaults.PROJECT_UTIL_NAME + defaults.PROJECT_COMMANDS_NAME)
 	commands = [
 		[
 			defaults.BMV2_CLI_PATH,

@@ -1,14 +1,14 @@
 #include "includes/headers.p4"
 #include "includes/parser.p4"
 
-counter my_indirect_counter {
+counter my_static_counter {
     type: packets;
     static: forward;
     instance_count: 1;
 }
 
 action _drop() {
-    count(my_indirect_counter, 0);
+    count(my_static_counter, 0);
     drop();
 }
 
