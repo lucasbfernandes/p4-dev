@@ -301,7 +301,7 @@
                     "parameters": [
                         {
                             "type": "counter_array",
-                            "value": "my_indirect_counter"
+                            "value": "my_static_counter"
                         },
                         {
                             "type": "hexstr",
@@ -370,7 +370,7 @@
     "field_lists": [],
     "counter_arrays": [
         {
-            "name": "my_indirect_counter",
+            "name": "my_static_counter",
             "id": 0,
             "is_direct": false,
             "size": 1
