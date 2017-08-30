@@ -17,8 +17,8 @@ action_selector multi_path_action_selector {
     selection_key : multi_path_port_selector;
 }
 
-action _drop() {
-    drop();
+action _nop() {
+
 }
 
 action set_multi_path_port(port) {
