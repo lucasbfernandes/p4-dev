@@ -1,5 +1,5 @@
-table_add forward multi_path_compute_meta 10.0.0.10 => 0
-table_add forward multi_path_compute_meta 10.0.1.10 => 1
+table_add multi_path_compute_meta set_meta_handle 10.0.0.10 => 0
+table_add multi_path_compute_meta set_meta_handle 10.0.1.10 => 1
 table_indirect_create_group multi_path_forward
 table_indirect_create_member multi_path_forward _nop
 table_indirect_create_member multi_path_forward set_multi_path_port 1
