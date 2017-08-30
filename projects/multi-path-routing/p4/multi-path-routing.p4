@@ -17,6 +17,10 @@ action_selector multi_path_action_selector {
     selection_key : multi_path_port_selector;
 }
 
+action _drop() {
+    drop();
+}
+
 action set_multi_path_port(port) {
     modify_field(standard_metadata.egress_spec, port);
 }
