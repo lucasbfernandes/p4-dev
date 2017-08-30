@@ -6,7 +6,7 @@ act_prof_create_member multi_path_action_profile set_multi_path_port 1
 act_prof_create_member multi_path_action_profile set_multi_path_port 2
 act_prof_add_member_to_group multi_path_action_profile 1 0
 act_prof_add_member_to_group multi_path_action_profile 2 0
-act_prof_set_default multi_path_action_profile 0
-table_indirect_add_with_group multi_path_action_profile 10.0.0.10 => 0
-table_indirect_add_with_group multi_path_action_profile 10.0.1.10 => 0
+table_indirect_set_default multi_path_forward 0
+table_indirect_add_with_group multi_path_forward 10.0.0.10 => 0
+table_indirect_add_with_group multi_path_forward 10.0.1.10 => 0
 table_dump multi_path_forward
