@@ -9,8 +9,8 @@ field_list_calculation multi_path_port_selector {
     input {
         multi_path_hash_fields;
     }
-    algorithm : bmv2_hash;
-    output_width : 16;
+    algorithm : multi_path_hash;
+    output_width: 32;
 }
 
 action_selector multi_path_action_selector {

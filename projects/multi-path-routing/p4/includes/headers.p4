@@ -25,7 +25,7 @@ header_type ipv4_t {
 
 header_type multi_path_metadata {
     fields {
-        meta_handle : 32;
+        meta_handle : 8;
     }
 }
 
