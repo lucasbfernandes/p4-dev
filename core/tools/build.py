@@ -14,7 +14,7 @@ def install_dependencies():
 def initialize_modules():
 	""
 	commands = [
-		["git", "submodule", "update", "--init", "--recursive"]
+		["git", "submodule", "update", "--init", "--recursive", "--remote"]
 	]
 	helpers.execute_commands(commands, defaults.APP_PATH)
 

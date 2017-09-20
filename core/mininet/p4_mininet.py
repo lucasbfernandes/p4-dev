@@ -64,6 +64,7 @@ class P4Switch(Switch):
         Switch.__init__(self, name, **kwargs)
         assert(sw_path)
         assert(json_path)
+
         # make sure that the provided sw_path is valid
         pathCheck(sw_path)
         # make sure that the provided JSON file exists
