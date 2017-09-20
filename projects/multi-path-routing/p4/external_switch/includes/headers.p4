@@ -23,14 +23,6 @@ header_type ipv4_t {
     }
 }
 
-header_type multi_path_metadata {
-    fields {
-        meta_handle : 8;
-    }
-}
-
 header ethernet_t ethernet;
 
 header ipv4_t ipv4;
-
-metadata multi_path_metadata meta;
