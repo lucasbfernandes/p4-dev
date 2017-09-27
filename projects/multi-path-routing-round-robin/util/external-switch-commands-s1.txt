@@ -1,0 +1,14 @@
+table_add multi_path_regular_forward set_multi_path_destination 10.0.0.10 => 00:04:00:00:00:00 1
+table_add multi_path_regular_forward set_multi_path_destination 10.0.1.10 => 00:04:00:00:00:01 2
+table_add multi_path_compute_meta set_meta_handle 10.0.2.10 => 0b0100000101000001
+act_prof_create_group multi_path_action_profile
+act_prof_create_member multi_path_action_profile _nop
+act_prof_create_member multi_path_action_profile set_multi_path_destination 00:04:00:00:00:02 3
+act_prof_create_member multi_path_action_profile set_multi_path_destination 00:04:00:00:00:02 4
+act_prof_add_member_to_group multi_path_action_profile 1 0
+act_prof_add_member_to_group multi_path_action_profile 2 0
+act_prof_add_member_to_group multi_path_action_profile 0 1
+act_prof_add_member_to_group multi_path_action_profile 2 1
+table_indirect_set_default multi_path_profile_forward 0
+table_indirect_add_with_group multi_path_profile_forward 10.0.2.10 => 0
+table_dump multi_path_profile_forward

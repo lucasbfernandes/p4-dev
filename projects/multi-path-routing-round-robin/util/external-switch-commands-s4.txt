@@ -1,0 +1,3 @@
+table_add multi_path_regular_forward set_multi_path_destination 10.0.0.10 => 00:04:00:00:00:00 1
+table_add multi_path_regular_forward set_multi_path_destination 10.0.1.10 => 00:04:00:00:00:01 1
+table_add multi_path_regular_forward set_multi_path_destination 10.0.2.10 => 00:04:00:00:00:02 3
