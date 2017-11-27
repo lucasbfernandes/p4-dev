@@ -9,7 +9,6 @@ import defaults
 import helpers
 
 def run_mininet(project_name):
-	""
 	path = defaults.PROJECTS_PATH + project_name + "/"
 	commands = [
 		[
@@ -24,9 +23,7 @@ def run_mininet(project_name):
 	helpers.execute_commands(commands, path)
 
 def run_project(project_name):
-	""
 	run_mininet(project_name)
 
 if __name__ == '__main__':
-
 	run_project("probabilistic-multipath")

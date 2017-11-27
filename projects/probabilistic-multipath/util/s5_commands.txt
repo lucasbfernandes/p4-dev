@@ -1,0 +1,20 @@
+table_add multi_path_set_dmac set_dmac 10.0.0.10 => 00:04:00:00:00:00
+table_add multi_path_set_dmac set_dmac 10.0.1.10 => 00:04:00:00:00:01
+table_add multi_path_set_dmac set_dmac 10.0.2.10 => 00:04:00:00:00:02
+table_add multi_path_set_dmac set_dmac 10.0.3.10 => 00:04:00:00:00:03
+table_add multi_path_regular_forward set_multi_path_destination 10.0.2.10 => 4
+table_add multi_path_regular_forward set_multi_path_destination 10.0.3.10 => 5
+table_add multi_path_compute_meta set_meta_handle 10.0.0.10 => 0b001100100000000000110010
+table_add multi_path_compute_meta set_meta_handle 10.0.1.10 => 0b001100100000000000110010
+act_prof_create_group probability_multipath_profile
+act_prof_create_member probability_multipath_profile _nop
+act_prof_create_member probability_multipath_profile set_multi_path_destination 1
+act_prof_create_member probability_multipath_profile set_multi_path_destination 2
+act_prof_create_member probability_multipath_profile set_multi_path_destination 3
+act_prof_add_member_to_group probability_multipath_profile 1 0
+act_prof_add_member_to_group probability_multipath_profile 2 0
+act_prof_add_member_to_group probability_multipath_profile 3 0
+table_indirect_set_default multi_path_profile_forward 0
+table_indirect_add_with_group multi_path_profile_forward 10.0.0.10 => 0
+table_indirect_add_with_group multi_path_profile_forward 10.0.1.10 => 0
+table_dump multi_path_profile_forward
