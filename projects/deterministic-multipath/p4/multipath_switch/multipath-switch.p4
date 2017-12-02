@@ -2,6 +2,8 @@
 #include "includes/parser.p4"
 
 field_list multi_path_hash_fields {
+    ipv4.srcAddr;
+    ipv4.dstAddr;
     meta.meta_handle;
 }
 
@@ -9,7 +11,7 @@ field_list_calculation multi_path_port_selector {
     input {
         multi_path_hash_fields;
     }
-    algorithm : multi_path_probability_hash;
+    algorithm : multi_path_roundrobin_hash;
     output_width: 32;
 }
 
@@ -51,20 +53,6 @@ table multi_path_regular_forward {
     }
 }
 
-action set_meta_handle(port) {
-    modify_field(meta.meta_handle, port);
-}
-
-table multi_path_compute_meta {
-    reads {
-        ipv4.srcAddr : exact;
-        ipv4.dstAddr : exact;
-    }
-    actions {
-        set_meta_handle;
-    }
-}
-
 action set_dmac(dmac) {
     modify_field(ethernet.dstAddr, dmac);
 }
@@ -75,6 +63,20 @@ table multi_path_set_dmac {
     }
     actions {
         set_dmac;
+    }
+}
+
+action set_meta_handle(portNumber) {
+    modify_field(meta.meta_handle, portNumber);
+}
+
+table multi_path_compute_meta {
+    reads {
+        ipv4.srcAddr : exact;
+        ipv4.dstAddr : exact;
+    }
+    actions {
+        set_meta_handle;
     }
 }
 
