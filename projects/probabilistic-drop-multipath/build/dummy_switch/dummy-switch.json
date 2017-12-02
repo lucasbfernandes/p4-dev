@@ -244,33 +244,8 @@
     "meter_arrays": [],
     "actions": [
         {
-            "name": "count_port",
-            "id": 0,
-            "runtime_data": [
-                {
-                    "name": "port",
-                    "bitwidth": 32
-                }
-            ],
-            "primitives": [
-                {
-                    "op": "count",
-                    "parameters": [
-                        {
-                            "type": "counter_array",
-                            "value": "dummy_switch_counter"
-                        },
-                        {
-                            "type": "runtime_data",
-                            "value": 0
-                        }
-                    ]
-                }
-            ]
-        },
-        {
             "name": "set_destination",
-            "id": 1,
+            "id": 0,
             "runtime_data": [
                 {
                     "name": "dmac",
@@ -311,6 +286,31 @@
                         {
                             "type": "runtime_data",
                             "value": 1
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "count_port",
+            "id": 1,
+            "runtime_data": [
+                {
+                    "name": "port",
+                    "bitwidth": 32
+                }
+            ],
+            "primitives": [
+                {
+                    "op": "count",
+                    "parameters": [
+                        {
+                            "type": "counter_array",
+                            "value": "dummy_switch_counter"
+                        },
+                        {
+                            "type": "runtime_data",
+                            "value": 0
                         }
                     ]
                 }

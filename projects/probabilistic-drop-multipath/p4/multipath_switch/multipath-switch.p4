@@ -9,7 +9,7 @@ field_list_calculation multi_path_port_selector {
     input {
         multi_path_hash_fields;
     }
-    algorithm : multi_path_probability_hash;
+    algorithm : probability_multipath;
     output_width: 32;
 }
 

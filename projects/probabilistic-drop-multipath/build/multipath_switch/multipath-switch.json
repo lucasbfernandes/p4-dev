@@ -262,30 +262,13 @@
     "meter_arrays": [],
     "actions": [
         {
-            "name": "set_multi_path_destination",
+            "name": "_drop",
             "id": 0,
-            "runtime_data": [
-                {
-                    "name": "port",
-                    "bitwidth": 9
-                }
-            ],
+            "runtime_data": [],
             "primitives": [
                 {
-                    "op": "modify_field",
-                    "parameters": [
-                        {
-                            "type": "field",
-                            "value": [
-                                "standard_metadata",
-                                "egress_spec"
-                            ]
-                        },
-                        {
-                            "type": "runtime_data",
-                            "value": 0
-                        }
-                    ]
+                    "op": "drop",
+                    "parameters": []
                 }
             ]
         },
@@ -318,10 +301,32 @@
             ]
         },
         {
-            "name": "_nop",
+            "name": "set_multi_path_destination",
             "id": 2,
-            "runtime_data": [],
-            "primitives": []
+            "runtime_data": [
+                {
+                    "name": "port",
+                    "bitwidth": 9
+                }
+            ],
+            "primitives": [
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "standard_metadata",
+                                "egress_spec"
+                            ]
+                        },
+                        {
+                            "type": "runtime_data",
+                            "value": 0
+                        }
+                    ]
+                }
+            ]
         },
         {
             "name": "set_meta_handle",
@@ -379,11 +384,11 @@
                         }
                     ],
                     "actions": [
-                        "_nop",
+                        "_drop",
                         "set_multi_path_destination"
                     ],
                     "next_tables": {
-                        "_nop": null,
+                        "_drop": null,
                         "set_multi_path_destination": null
                     },
                     "base_default_next": null

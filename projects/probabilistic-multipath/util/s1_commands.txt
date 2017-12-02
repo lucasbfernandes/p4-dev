@@ -17,6 +17,8 @@ act_prof_add_member_to_group probability_multipath_profile 1 0
 act_prof_add_member_to_group probability_multipath_profile 2 0
 act_prof_add_member_to_group probability_multipath_profile 3 0
 table_indirect_set_default multi_path_profile_forward 0
-table_indirect_add_with_group multi_path_profile_forward 10.0.2.10 => 0
-table_indirect_add_with_group multi_path_profile_forward 10.0.3.10 => 0
+table_indirect_add_with_group multi_path_profile_forward 10.0.0.10 10.0.2.10 => 0
+table_indirect_add_with_group multi_path_profile_forward 10.0.0.10 10.0.3.10 => 0
+table_indirect_add_with_group multi_path_profile_forward 10.0.1.10 10.0.2.10 => 0
+table_indirect_add_with_group multi_path_profile_forward 10.0.1.10 10.0.3.10 => 0
 table_dump multi_path_profile_forward
