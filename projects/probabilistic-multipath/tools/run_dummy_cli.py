@@ -22,10 +22,9 @@ def run_cli(project_name, source_name, thrift_port):
 
 def get_args():
     parser = argparse.ArgumentParser(description='P4 CLI')
-    parser.add_argument('--source-name', help='Path to JSON config file', type=str, action='store', required=True)
     parser.add_argument('--thrift-port', help='Thrift server port', type=str, action='store', required=True)
     return parser.parse_args()
 
 if __name__ == '__main__':
 	args = get_args()
-	run_cli('probabilistic-multipath', args.source_name, args.thrift_port)
+	run_cli('probabilistic-multipath', 'dummy_switch/dummy-switch', args.thrift_port)

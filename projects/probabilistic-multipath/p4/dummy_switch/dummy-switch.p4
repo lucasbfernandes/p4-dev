@@ -3,12 +3,12 @@
 
 counter dummy_switch_counter {
     type: packets;
-    static: process_port;
-    instance_count: 10; 
+    static: process_path;
+    instance_count: 8;
 }
 
-action count_port(port) {
-    count(dummy_switch_counter, port);
+action count_path(path) {
+    count(dummy_switch_counter, path);
 }
 
 action set_destination(dmac, port) {
@@ -16,12 +16,13 @@ action set_destination(dmac, port) {
     modify_field(standard_metadata.egress_spec, port);
 }
 
-table process_port {
+table process_path {
     reads {
+        ipv4.srcAddr : exact;
         ipv4.dstAddr : exact;
     }
     actions {
-        count_port;
+        count_path;
     }
 }
 
@@ -35,7 +36,7 @@ table forward {
 }
 
 control ingress {
-    apply(process_port);
+    apply(process_path);
     apply(forward);
 }
 

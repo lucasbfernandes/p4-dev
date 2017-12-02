@@ -244,33 +244,8 @@
     "meter_arrays": [],
     "actions": [
         {
-            "name": "count_port",
-            "id": 0,
-            "runtime_data": [
-                {
-                    "name": "port",
-                    "bitwidth": 32
-                }
-            ],
-            "primitives": [
-                {
-                    "op": "count",
-                    "parameters": [
-                        {
-                            "type": "counter_array",
-                            "value": "dummy_switch_counter"
-                        },
-                        {
-                            "type": "runtime_data",
-                            "value": 0
-                        }
-                    ]
-                }
-            ]
-        },
-        {
             "name": "set_destination",
-            "id": 1,
+            "id": 0,
             "runtime_data": [
                 {
                     "name": "dmac",
@@ -315,16 +290,41 @@
                     ]
                 }
             ]
+        },
+        {
+            "name": "count_path",
+            "id": 1,
+            "runtime_data": [
+                {
+                    "name": "path",
+                    "bitwidth": 32
+                }
+            ],
+            "primitives": [
+                {
+                    "op": "count",
+                    "parameters": [
+                        {
+                            "type": "counter_array",
+                            "value": "dummy_switch_counter"
+                        },
+                        {
+                            "type": "runtime_data",
+                            "value": 0
+                        }
+                    ]
+                }
+            ]
         }
     ],
     "pipelines": [
         {
             "name": "ingress",
             "id": 0,
-            "init_table": "process_port",
+            "init_table": "process_path",
             "tables": [
                 {
-                    "name": "process_port",
+                    "name": "process_path",
                     "id": 0,
                     "match_type": "exact",
                     "type": "simple",
@@ -337,16 +337,24 @@
                             "match_type": "exact",
                             "target": [
                                 "ipv4",
+                                "srcAddr"
+                            ],
+                            "mask": null
+                        },
+                        {
+                            "match_type": "exact",
+                            "target": [
+                                "ipv4",
                                 "dstAddr"
                             ],
                             "mask": null
                         }
                     ],
                     "actions": [
-                        "count_port"
+                        "count_path"
                     ],
                     "next_tables": {
-                        "count_port": "forward"
+                        "count_path": "forward"
                     },
                     "base_default_next": "forward"
                 },
@@ -399,7 +407,7 @@
             "name": "dummy_switch_counter",
             "id": 0,
             "is_direct": false,
-            "size": 10
+            "size": 8
         }
     ],
     "register_arrays": [],
