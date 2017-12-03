@@ -129,7 +129,7 @@
             "fields": [
                 [
                     "meta_handle",
-                    24
+                    32
                 ]
             ],
             "length_exp": null,
@@ -329,7 +329,7 @@
             "runtime_data": [
                 {
                     "name": "port",
-                    "bitwidth": 24
+                    "bitwidth": 32
                 }
             ],
             "primitives": [

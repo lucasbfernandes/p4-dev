@@ -4,10 +4,10 @@ table_add multi_path_set_dmac set_dmac 10.0.2.10 => 00:04:00:00:00:02
 table_add multi_path_set_dmac set_dmac 10.0.3.10 => 00:04:00:00:00:03
 table_add multi_path_regular_forward set_multi_path_destination 10.0.0.10 => 1
 table_add multi_path_regular_forward set_multi_path_destination 10.0.1.10 => 2
-table_add multi_path_compute_meta set_meta_handle 10.0.0.10 10.0.2.10 => 0b000111100001111000101000
-table_add multi_path_compute_meta set_meta_handle 10.0.0.10 10.0.3.10 => 0b001100100001010000011110
-table_add multi_path_compute_meta set_meta_handle 10.0.1.10 10.0.2.10 => 0b010001100001111000000000
-table_add multi_path_compute_meta set_meta_handle 10.0.1.10 10.0.3.10 => 0b001000110010001100011110
+table_add multi_path_compute_meta set_meta_handle 10.0.0.10 10.0.2.10 => 0b00000011000111100001111000101000
+table_add multi_path_compute_meta set_meta_handle 10.0.0.10 10.0.3.10 => 0b00000011001100100010100000001010
+table_add multi_path_compute_meta set_meta_handle 10.0.1.10 10.0.2.10 => 0b00000011000111100011001000010100
+table_add multi_path_compute_meta set_meta_handle 10.0.1.10 10.0.3.10 => 0b00000011001010000010100000010100
 act_prof_create_group probability_multipath_profile
 act_prof_create_member probability_multipath_profile _nop
 act_prof_create_member probability_multipath_profile set_multi_path_destination 3
