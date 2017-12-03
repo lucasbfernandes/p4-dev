@@ -6,7 +6,6 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/../../../core/min
 
 from mininet.net import Mininet
 from mininet.topo import Topo
-from mininet.link import TCLink
 from mininet.log import setLogLevel, info
 from mininet.cli import CLI
 from p4_mininet import P4Switch, P4Host
@@ -45,18 +44,18 @@ class ProbabilisticMultipathTopo(Topo):
         self.addLink(self.networkHosts[1], self.networkSwitches[0])
         print('h2 -> s1', self.port('h2', 's1'))
 
-        self.addLink(self.networkSwitches[0], self.networkSwitches[1], bw = 30)
+        self.addLink(self.networkSwitches[0], self.networkSwitches[1])
         print('s1 -> s2', self.port('s1', 's2'))
-        self.addLink(self.networkSwitches[0], self.networkSwitches[2], bw = 30)
+        self.addLink(self.networkSwitches[0], self.networkSwitches[2])
         print('s1 -> s3', self.port('s1', 's3'))
-        self.addLink(self.networkSwitches[0], self.networkSwitches[3], bw = 40)
+        self.addLink(self.networkSwitches[0], self.networkSwitches[3])
         print('s1 -> s4', self.port('s1', 's4'))
 
-        self.addLink(self.networkSwitches[1], self.networkSwitches[4], bw = 50)
+        self.addLink(self.networkSwitches[1], self.networkSwitches[4])
         print('s2 -> s5', self.port('s2', 's5'))
-        self.addLink(self.networkSwitches[2], self.networkSwitches[4], bw = 0)
+        self.addLink(self.networkSwitches[2], self.networkSwitches[4])
         print('s3 -> s5', self.port('s3', 's5'))
-        self.addLink(self.networkSwitches[3], self.networkSwitches[4], bw = 50)
+        self.addLink(self.networkSwitches[3], self.networkSwitches[4])
         print('s4 -> s5', self.port('s4', 's5'))
 
         self.addLink(self.networkHosts[2], self.networkSwitches[4])
@@ -77,10 +76,10 @@ def set_node_route(node, ip_addr, mac_addr, route_str):
     node.setDefaultRoute(route_str)
 
 def initialize_routes(network):
-    set_node_route(network.get('h1'), '10.0.0.10', '00:04:00:00:00:00', 'dev eth0 via 10.0.0.10')
-    set_node_route(network.get('h2'), '10.0.1.10', '00:04:00:00:00:01', 'dev eth0 via 10.0.1.10')
-    set_node_route(network.get('h3'), '10.0.2.10', '00:04:00:00:00:02', 'dev eth0 via 10.0.2.10')
-    set_node_route(network.get('h4'), '10.0.3.10', '00:04:00:00:00:03', 'dev eth0 via 10.0.3.10')
+    set_node_route(network.get('h1'), '10.0.0.1', '00:04:00:00:00:00', 'dev eth0 via 10.0.0.1')
+    set_node_route(network.get('h2'), '10.0.1.1', '00:04:00:00:00:01', 'dev eth0 via 10.0.1.1')
+    set_node_route(network.get('h3'), '10.0.2.1', '00:04:00:00:00:02', 'dev eth0 via 10.0.2.1')
+    set_node_route(network.get('h4'), '10.0.3.1', '00:04:00:00:00:03', 'dev eth0 via 10.0.3.1')
 
 def describe_hosts(network):
     host = network.get('h1')
@@ -101,7 +100,7 @@ def run_network(network):
 def main():
     args = get_args()
     topo = ProbabilisticMultipathTopo(args.behavioral_exe, args.thrift_port, args.pcap_dump)
-    net = Mininet(topo = topo, host = P4Host, switch = P4Switch, link = TCLink, controller = None)
+    net = Mininet(topo = topo, host = P4Host, switch = P4Switch, controller = None)
     net.start()
 
     initialize_routes(net)

@@ -129,7 +129,7 @@
             "fields": [
                 [
                     "meta_handle",
-                    32
+                    8
                 ]
             ],
             "length_exp": null,
@@ -268,12 +268,12 @@
             "primitives": []
         },
         {
-            "name": "set_dmac",
+            "name": "set_meta_handle",
             "id": 1,
             "runtime_data": [
                 {
-                    "name": "dmac",
-                    "bitwidth": 48
+                    "name": "portNumber",
+                    "bitwidth": 8
                 }
             ],
             "primitives": [
@@ -283,8 +283,8 @@
                         {
                             "type": "field",
                             "value": [
-                                "ethernet",
-                                "dstAddr"
+                                "meta",
+                                "meta_handle"
                             ]
                         },
                         {
@@ -324,12 +324,12 @@
             ]
         },
         {
-            "name": "set_meta_handle",
+            "name": "set_dmac",
             "id": 3,
             "runtime_data": [
                 {
-                    "name": "port",
-                    "bitwidth": 32
+                    "name": "dmac",
+                    "bitwidth": 48
                 }
             ],
             "primitives": [
@@ -339,8 +339,8 @@
                         {
                             "type": "field",
                             "value": [
-                                "meta",
-                                "meta_handle"
+                                "ethernet",
+                                "dstAddr"
                             ]
                         },
                         {
@@ -369,14 +369,6 @@
                     "direct_meters": null,
                     "support_timeout": false,
                     "key": [
-                        {
-                            "match_type": "exact",
-                            "target": [
-                                "ipv4",
-                                "srcAddr"
-                            ],
-                            "mask": null
-                        },
                         {
                             "match_type": "exact",
                             "target": [
@@ -424,8 +416,35 @@
                     "base_default_next": "multi_path_profile_forward"
                 },
                 {
-                    "name": "multi_path_compute_meta",
+                    "name": "multi_path_set_dmac",
                     "id": 2,
+                    "match_type": "exact",
+                    "type": "simple",
+                    "max_size": 16384,
+                    "with_counters": false,
+                    "direct_meters": null,
+                    "support_timeout": false,
+                    "key": [
+                        {
+                            "match_type": "exact",
+                            "target": [
+                                "ipv4",
+                                "dstAddr"
+                            ],
+                            "mask": null
+                        }
+                    ],
+                    "actions": [
+                        "set_dmac"
+                    ],
+                    "next_tables": {
+                        "set_dmac": "multi_path_regular_forward"
+                    },
+                    "base_default_next": "multi_path_regular_forward"
+                },
+                {
+                    "name": "multi_path_compute_meta",
+                    "id": 3,
                     "match_type": "exact",
                     "type": "simple",
                     "max_size": 16384,
@@ -457,33 +476,6 @@
                         "set_meta_handle": "multi_path_set_dmac"
                     },
                     "base_default_next": "multi_path_set_dmac"
-                },
-                {
-                    "name": "multi_path_set_dmac",
-                    "id": 3,
-                    "match_type": "exact",
-                    "type": "simple",
-                    "max_size": 16384,
-                    "with_counters": false,
-                    "direct_meters": null,
-                    "support_timeout": false,
-                    "key": [
-                        {
-                            "match_type": "exact",
-                            "target": [
-                                "ipv4",
-                                "dstAddr"
-                            ],
-                            "mask": null
-                        }
-                    ],
-                    "actions": [
-                        "set_dmac"
-                    ],
-                    "next_tables": {
-                        "set_dmac": "multi_path_regular_forward"
-                    },
-                    "base_default_next": "multi_path_regular_forward"
                 }
             ],
             "action_profiles": [
@@ -492,8 +484,22 @@
                     "id": 0,
                     "max_size": 64,
                     "selector": {
-                        "algo": "probability_multipath",
+                        "algo": "deterministic_round_multipath",
                         "input": [
+                            {
+                                "type": "field",
+                                "value": [
+                                    "ipv4",
+                                    "srcAddr"
+                                ]
+                            },
+                            {
+                                "type": "field",
+                                "value": [
+                                    "ipv4",
+                                    "dstAddr"
+                                ]
+                            },
                             {
                                 "type": "field",
                                 "value": [
@@ -524,12 +530,26 @@
                 {
                     "type": "field",
                     "value": [
+                        "ipv4",
+                        "srcAddr"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "ipv4",
+                        "dstAddr"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
                         "meta",
                         "meta_handle"
                     ]
                 }
             ],
-            "algo": "probability_multipath"
+            "algo": "deterministic_round_multipath"
         }
     ],
     "checksums": [],

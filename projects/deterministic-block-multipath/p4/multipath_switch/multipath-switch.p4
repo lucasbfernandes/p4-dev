@@ -2,6 +2,8 @@
 #include "includes/parser.p4"
 
 field_list multi_path_hash_fields {
+    ipv4.srcAddr;
+    ipv4.dstAddr;
     meta.meta_handle;
 }
 
@@ -9,7 +11,7 @@ field_list_calculation multi_path_port_selector {
     input {
         multi_path_hash_fields;
     }
-    algorithm : probabilistic_simple_multipath;
+    algorithm : deterministic_block_multipath;
     output_width: 32;
 }
 

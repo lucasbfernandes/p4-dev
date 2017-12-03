@@ -492,7 +492,7 @@
                     "id": 0,
                     "max_size": 64,
                     "selector": {
-                        "algo": "probability_multipath",
+                        "algo": "probabilistic_simple_multipath",
                         "input": [
                             {
                                 "type": "field",
@@ -529,7 +529,7 @@
                     ]
                 }
             ],
-            "algo": "probability_multipath"
+            "algo": "probabilistic_simple_multipath"
         }
     ],
     "checksums": [],

@@ -262,10 +262,32 @@
     "meter_arrays": [],
     "actions": [
         {
-            "name": "_nop",
+            "name": "set_multi_path_destination",
             "id": 0,
-            "runtime_data": [],
-            "primitives": []
+            "runtime_data": [
+                {
+                    "name": "port",
+                    "bitwidth": 9
+                }
+            ],
+            "primitives": [
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "standard_metadata",
+                                "egress_spec"
+                            ]
+                        },
+                        {
+                            "type": "runtime_data",
+                            "value": 0
+                        }
+                    ]
+                }
+            ]
         },
         {
             "name": "set_dmac",
@@ -296,32 +318,10 @@
             ]
         },
         {
-            "name": "set_multi_path_destination",
+            "name": "_nop",
             "id": 2,
-            "runtime_data": [
-                {
-                    "name": "port",
-                    "bitwidth": 9
-                }
-            ],
-            "primitives": [
-                {
-                    "op": "modify_field",
-                    "parameters": [
-                        {
-                            "type": "field",
-                            "value": [
-                                "standard_metadata",
-                                "egress_spec"
-                            ]
-                        },
-                        {
-                            "type": "runtime_data",
-                            "value": 0
-                        }
-                    ]
-                }
-            ]
+            "runtime_data": [],
+            "primitives": []
         },
         {
             "name": "set_meta_handle",
@@ -492,8 +492,22 @@
                     "id": 0,
                     "max_size": 64,
                     "selector": {
-                        "algo": "probability_multipath",
+                        "algo": "deterministic_block_multipath",
                         "input": [
+                            {
+                                "type": "field",
+                                "value": [
+                                    "ipv4",
+                                    "srcAddr"
+                                ]
+                            },
+                            {
+                                "type": "field",
+                                "value": [
+                                    "ipv4",
+                                    "dstAddr"
+                                ]
+                            },
                             {
                                 "type": "field",
                                 "value": [
@@ -524,12 +538,26 @@
                 {
                     "type": "field",
                     "value": [
+                        "ipv4",
+                        "srcAddr"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "ipv4",
+                        "dstAddr"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
                         "meta",
                         "meta_handle"
                     ]
                 }
             ],
-            "algo": "probability_multipath"
+            "algo": "deterministic_block_multipath"
         }
     ],
     "checksums": [],
