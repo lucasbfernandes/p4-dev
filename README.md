@@ -36,5 +36,4 @@ These are the only things you have to do in order to start building your p4 appl
 * Auto generate p4 example program
 * Better way to generate files?
 * Tests
-* Floodlight integration
 * P4 16?
