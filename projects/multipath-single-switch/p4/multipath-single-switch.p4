@@ -1,54 +1,54 @@
 #include "includes/headers.p4"
 #include "includes/parser.p4"
 
-field_list multi_path_hash_fields {
+field_list mp_hash_fields {
     meta.meta_handle;
 }
 
-field_list_calculation multi_path_port_selector {
+field_list_calculation mp_port_selector {
     input {
-        multi_path_hash_fields;
+        mp_hash_fields;
     }
     algorithm : probabilistic_simple_multipath;
     output_width: 32;
 }
 
-action_selector multi_path_action_selector {
-    selection_key : multi_path_port_selector;
+action_selector mp_action_selector {
+    selection_key : mp_port_selector;
 }
 
 action _nop() {
 
 }
 
-action set_multi_path_destination(port) {
+action set_mp_port(port) {
     modify_field(standard_metadata.egress_spec, port);
 }
 
-action_profile probability_multipath_profile {
+action_profile mp_profile {
     actions {
         _nop;
-        set_multi_path_destination;
+        set_mp_port;
     }
     size : 64;
-    dynamic_action_selection : multi_path_action_selector;
+    dynamic_action_selection : mp_action_selector;
 }
 
-table multi_path_profile_forward {
+table mp_profile_forward {
     reads {
         ipv4.srcAddr : exact;
         ipv4.dstAddr : exact;
     }
-    action_profile: probability_multipath_profile;
+    action_profile: mp_profile;
     size : 1024;
 }
 
-table multi_path_regular_forward {
+table mp_regular_forward {
     reads {
         ipv4.dstAddr : exact;
     }
     actions {
-        set_multi_path_destination;
+        set_mp_port;
     }
 }
 
@@ -56,7 +56,7 @@ action set_meta_handle(port) {
     modify_field(meta.meta_handle, port);
 }
 
-table multi_path_compute_meta {
+table mp_compute_meta {
     reads {
         ipv4.srcAddr : exact;
         ipv4.dstAddr : exact;
@@ -70,7 +70,7 @@ action set_dmac(dmac) {
     modify_field(ethernet.dstAddr, dmac);
 }
 
-table multi_path_set_dmac {
+table mp_set_dmac {
     reads {
         ipv4.dstAddr : exact;
     }
@@ -79,14 +79,14 @@ table multi_path_set_dmac {
     }
 }
 
-counter dummy_switch_counter {
+counter path_counter {
     type: packets;
-    static: process_path;
+    static: mp_count_path;
     instance_count: 8;
 }
 
 action count_path(path) {
-    count(dummy_switch_counter, path);
+    count(path_counter, path);
 }
 
 action set_destination(dmac, port) {
@@ -94,7 +94,7 @@ action set_destination(dmac, port) {
     modify_field(standard_metadata.egress_spec, port);
 }
 
-table process_path {
+table mp_count_path {
     reads {
         ipv4.srcAddr : exact;
         ipv4.dstAddr : exact;
@@ -104,7 +104,7 @@ table process_path {
     }
 }
 
-table forward {
+table mp_forward {
     reads {
         ipv4.dstAddr : exact;
     }
@@ -114,12 +114,12 @@ table forward {
 }
 
 control ingress {
-    apply(multi_path_compute_meta);
-    apply(multi_path_set_dmac);
-    apply(multi_path_regular_forward);
-    apply(multi_path_profile_forward);
-    apply(process_path);
-    apply(forward);
+    apply(mp_compute_meta);
+    apply(mp_set_dmac);
+    apply(mp_regular_forward);
+    apply(mp_profile_forward);
+    apply(mp_count_path);
+    apply(mp_forward);
 }
 
 control egress {
