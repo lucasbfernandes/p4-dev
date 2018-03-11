@@ -23,9 +23,10 @@ header_type ipv4_t {
     }
 }
 
-header_type multi_path_metadata {
+header_type mp_metadata {
     fields {
-        meta_handle : 32;
+        probability_handle : 32;
+        maxflow_handle: 32;
     }
 }
 
@@ -33,4 +34,4 @@ header ethernet_t ethernet;
 
 header ipv4_t ipv4;
 
-metadata multi_path_metadata meta;
+metadata mp_metadata meta;

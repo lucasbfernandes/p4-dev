@@ -2,7 +2,11 @@
 #include "includes/parser.p4"
 
 field_list mp_hash_fields {
-    meta.meta_handle;
+    ipv4.srcAddr;
+    ipv4.dstAddr;
+    ipv4.totalLen;
+    meta.maxflow_handle;
+    meta.probability_handle;
 }
 
 field_list_calculation mp_port_selector {
@@ -52,17 +56,31 @@ table mp_regular_forward {
     }
 }
 
-action set_meta_handle(port) {
-    modify_field(meta.meta_handle, port);
+action set_probability_handle(port) {
+    modify_field(meta.probability_handle, port);
 }
 
-table mp_compute_meta {
+table mp_probability_meta {
     reads {
         ipv4.srcAddr : exact;
         ipv4.dstAddr : exact;
     }
     actions {
-        set_meta_handle;
+        set_probability_handle;
+    }
+}
+
+action set_maxflow_handle(port) {
+    modify_field(meta.maxflow_handle, port);
+}
+
+table mp_maxflow_meta {
+    reads {
+        ipv4.srcAddr : exact;
+        ipv4.dstAddr : exact;
+    }
+    actions {
+        set_probability_handle;
     }
 }
 
@@ -114,7 +132,8 @@ table mp_forward {
 }
 
 control ingress {
-    apply(mp_compute_meta);
+    apply(mp_probability_meta);
+    apply(mp_maxflow_meta);
     apply(mp_set_dmac);
     apply(mp_regular_forward);
     apply(mp_profile_forward);
