@@ -290,8 +290,14 @@
             ]
         },
         {
-            "name": "set_multi_path_destination",
+            "name": "_nop",
             "id": 1,
+            "runtime_data": [],
+            "primitives": []
+        },
+        {
+            "name": "set_multi_path_destination",
+            "id": 2,
             "runtime_data": [
                 {
                     "name": "port",
@@ -318,14 +324,81 @@
             ]
         },
         {
-            "name": "_nop",
-            "id": 2,
-            "runtime_data": [],
-            "primitives": []
+            "name": "count_path",
+            "id": 3,
+            "runtime_data": [
+                {
+                    "name": "path",
+                    "bitwidth": 32
+                }
+            ],
+            "primitives": [
+                {
+                    "op": "count",
+                    "parameters": [
+                        {
+                            "type": "counter_array",
+                            "value": "dummy_switch_counter"
+                        },
+                        {
+                            "type": "runtime_data",
+                            "value": 0
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "set_destination",
+            "id": 4,
+            "runtime_data": [
+                {
+                    "name": "dmac",
+                    "bitwidth": 48
+                },
+                {
+                    "name": "port",
+                    "bitwidth": 9
+                }
+            ],
+            "primitives": [
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "ethernet",
+                                "dstAddr"
+                            ]
+                        },
+                        {
+                            "type": "runtime_data",
+                            "value": 0
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "standard_metadata",
+                                "egress_spec"
+                            ]
+                        },
+                        {
+                            "type": "runtime_data",
+                            "value": 1
+                        }
+                    ]
+                }
+            ]
         },
         {
             "name": "set_meta_handle",
-            "id": 3,
+            "id": 5,
             "runtime_data": [
                 {
                     "name": "port",
@@ -391,10 +464,10 @@
                         "set_multi_path_destination"
                     ],
                     "next_tables": {
-                        "_nop": null,
-                        "set_multi_path_destination": null
+                        "_nop": "process_path",
+                        "set_multi_path_destination": "process_path"
                     },
-                    "base_default_next": null
+                    "base_default_next": "process_path"
                 },
                 {
                     "name": "multi_path_regular_forward",
@@ -484,6 +557,68 @@
                         "set_dmac": "multi_path_regular_forward"
                     },
                     "base_default_next": "multi_path_regular_forward"
+                },
+                {
+                    "name": "process_path",
+                    "id": 4,
+                    "match_type": "exact",
+                    "type": "simple",
+                    "max_size": 16384,
+                    "with_counters": false,
+                    "direct_meters": null,
+                    "support_timeout": false,
+                    "key": [
+                        {
+                            "match_type": "exact",
+                            "target": [
+                                "ipv4",
+                                "srcAddr"
+                            ],
+                            "mask": null
+                        },
+                        {
+                            "match_type": "exact",
+                            "target": [
+                                "ipv4",
+                                "dstAddr"
+                            ],
+                            "mask": null
+                        }
+                    ],
+                    "actions": [
+                        "count_path"
+                    ],
+                    "next_tables": {
+                        "count_path": "forward"
+                    },
+                    "base_default_next": "forward"
+                },
+                {
+                    "name": "forward",
+                    "id": 5,
+                    "match_type": "exact",
+                    "type": "simple",
+                    "max_size": 16384,
+                    "with_counters": false,
+                    "direct_meters": null,
+                    "support_timeout": false,
+                    "key": [
+                        {
+                            "match_type": "exact",
+                            "target": [
+                                "ipv4",
+                                "dstAddr"
+                            ],
+                            "mask": null
+                        }
+                    ],
+                    "actions": [
+                        "set_destination"
+                    ],
+                    "next_tables": {
+                        "set_destination": null
+                    },
+                    "base_default_next": null
                 }
             ],
             "action_profiles": [
@@ -535,7 +670,14 @@
     "checksums": [],
     "learn_lists": [],
     "field_lists": [],
-    "counter_arrays": [],
+    "counter_arrays": [
+        {
+            "name": "dummy_switch_counter",
+            "id": 0,
+            "is_direct": false,
+            "size": 8
+        }
+    ],
     "register_arrays": [],
     "force_arith": [
         [
