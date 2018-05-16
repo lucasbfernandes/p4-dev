@@ -17,7 +17,7 @@ def run_cli(project_name):
 			defaults.PROJECT_BUILD_NAME + project_name + ".json"
 		]
 	]
-	helpers.execute_commands(commands, path)
+	helpers.execute_command(commands, path)
 
 if __name__ == '__main__':
 

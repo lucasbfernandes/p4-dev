@@ -120,11 +120,11 @@ class P4Switch(Switch):
             args.extend(['--thrift-port', str(self.thrift_port)])
         if self.nanomsg:
             args.extend(['--nanolog', self.nanomsg])
+        if self.enable_debugger:
+            args.append("--debugger")
         args.extend(['--device-id', str(self.device_id)])
         P4Switch.device_id += 1
         args.append(self.json_path)
-        if self.enable_debugger:
-            args.append("--debugger")
         if self.log_console:
             args.append("--log-console")
         logfile = "/tmp/p4s.{}.log".format(self.name)
@@ -138,7 +138,7 @@ class P4Switch(Switch):
         debug("P4 switch {} PID is {}.\n".format(self.name, pid))
         if not self.check_switch_started(pid):
             error("P4 switch {} did not start correctly.\n".format(self.name))
-            exit(1)
+            #exit(1)
         info("P4 switch {} has been started.\n".format(self.name))
 
     def stop(self):
