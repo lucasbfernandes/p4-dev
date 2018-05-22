@@ -18,7 +18,9 @@ def run_mininet(project_name):
 			"--behavioral-exe",
 			defaults.BMV2_INTERPRETER_PATH,
 			"--json",
-			defaults.PROJECT_BUILD_NAME + project_name + ".json"
+			defaults.PROJECT_BUILD_NAME + project_name + ".json",
+			"--debugger",
+			"True"
 		]
 	]
 	helpers.execute_commands(commands, path)
