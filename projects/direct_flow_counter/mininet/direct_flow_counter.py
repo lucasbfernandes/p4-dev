@@ -33,11 +33,13 @@ class SingleSwitchTopo(Topo):
     ""
     def __init__(self, sw_path, json_path, thrift_port, pcap_dump, n, debug, **opts):
         ""
+        print "Topologia sendo criada"
         Topo.__init__(self, **opts)
         switch = self.addSwitch('s1', sw_path = sw_path, json_path = json_path, thrift_port = thrift_port, pcap_dump = pcap_dump, enable_debugger = debug)
         for h in xrange(n):
-            host = self.addHost('h%d' % (h + 1), ip = "10.0.%d.1/24" % h, mac = '00:aa:bb:00:00:%02x' %h)
+            host = self.addHost('h%d' % (h + 1), ip = "10.0.%d.1/24" % h, mac = '00:aa:bb:00:%02x:01' %h)
             self.addLink(host, switch)
+        print "Topologia pronta"
 
 
 def get_args():
@@ -45,7 +47,7 @@ def get_args():
     parser = argparse.ArgumentParser(description='Mininet demo')
     parser.add_argument('--behavioral-exe', help='Path to behavioral executable', type=str, action="store", required=True)
     parser.add_argument('--thrift-port', help='Thrift server port for table updates', type=int, action="store", default=9090)
-    parser.add_argument('--num-hosts', help='Number of hosts to connect to switch', type=int, action="store", default=2)
+    parser.add_argument('--num-hosts', help='Number of hosts to connect to switch', type=int, action="store", default=3)
     parser.add_argument('--mode', choices=['l2', 'l3'], type=str, default='l3')
     parser.add_argument('--json', help='Path to JSON config file', type=str, action="store", required=True)
     parser.add_argument('--pcap-dump', help='Dump packets on interfaces to pcap files', type=str, action="store", required=False, default=False)
@@ -65,10 +67,10 @@ def main():
     topo = SingleSwitchTopo(args.behavioral_exe, args.json, args.thrift_port, args.pcap_dump, num_hosts, debug)
     net = Mininet(topo = topo, host = P4Host, switch = P4Switch, controller = None)
     switch = net.switches[0]
-    Intf('enp0s3', node=switch)
+    #Intf('enp0s3', node=switch)
     net.start()
 
-    sw_mac = ["00:aa:bb:00:00:%02x" % n for n in xrange(num_hosts)]
+    sw_mac = ["00:aa:00:00:%02x:01" % n for n in xrange(num_hosts)]
     sw_addr = ["10.0.%d.1" % n for n in xrange(num_hosts)]
 
     for n in xrange(num_hosts):

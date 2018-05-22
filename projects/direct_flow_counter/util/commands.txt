@@ -1,3 +1,4 @@
-table_add forward set_destination 10.0.0.1 => 00:aa:bb:00:00:00 1
-table_add forward set_destination 10.0.1.1 => 00:aa:bb:00:00:01 2
-table_add forward set_destination 10.0.2.15 => 00:aa:00:00:00:01 3
+table_add forward set_destination 10.0.0.1 => 00:aa:bb:00:00:01 1
+table_add forward set_destination 10.0.1.1 => 00:aa:bb:00:01:01 2
+table_add forward set_destination 10.0.2.1 => 00:aa:bb:00:02:01 3 
+#table_add forward set_destination 10.0.2.15 => 00:aa:00:00:00:01 3
