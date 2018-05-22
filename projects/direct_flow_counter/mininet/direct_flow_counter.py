@@ -30,10 +30,10 @@ import argparse
 
 class SingleSwitchTopo(Topo):
     ""
-    def __init__(self, sw_path, json_path, thrift_port, pcap_dump, n, **opts):
+    def __init__(self, sw_path, json_path, thrift_port, pcap_dump, n, debug, **opts):
         ""
         Topo.__init__(self, **opts)
-        switch = self.addSwitch('s1', sw_path = sw_path, json_path = json_path, thrift_port = thrift_port, pcap_dump = pcap_dump)
+        switch = self.addSwitch('s1', sw_path = sw_path, json_path = json_path, thrift_port = thrift_port, pcap_dump = pcap_dump, enable_debugger = debug)
         for h in xrange(n):
             host = self.addHost('h%d' % (h + 1), ip = "10.0.%d.10/24" % h, mac = '00:04:00:00:00:%02x' %h)
             self.addLink(host, switch)
@@ -47,6 +47,8 @@ def get_args():
     parser.add_argument('--mode', choices=['l2', 'l3'], type=str, default='l3')
     parser.add_argument('--json', help='Path to JSON config file', type=str, action="store", required=True)
     parser.add_argument('--pcap-dump', help='Dump packets on interfaces to pcap files', type=str, action="store", required=False, default=False)
+    parser.add_argument('--debugger', help='Enable debugger', type=lambda x:bool(x == "True"), action="store", required=False, default=False)
+    
     return parser.parse_args()
 
 
@@ -55,8 +57,9 @@ def main():
     args = get_args()
     num_hosts = args.num_hosts
     mode = args.mode
+    debug = args.debugger
 
-    topo = SingleSwitchTopo(args.behavioral_exe, args.json, args.thrift_port, args.pcap_dump, num_hosts)
+    topo = SingleSwitchTopo(args.behavioral_exe, args.json, args.thrift_port, args.pcap_dump, num_hosts, debug)
     net = Mininet(topo = topo, host = P4Host, switch = P4Switch, controller = None)
     net.start()
 
