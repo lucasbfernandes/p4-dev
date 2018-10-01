@@ -10,6 +10,7 @@ from mininet.log import setLogLevel, info
 from mininet.cli import CLI
 from p4_mininet import P4Switch, P4Host
 from time import sleep
+from mininet.link import TCLink
 
 class ProbabilisticMultipathTopo(Topo):
 
@@ -39,28 +40,28 @@ class ProbabilisticMultipathTopo(Topo):
         ))
 
     def add_links(self):
-        self.addLink(self.networkHosts[0], self.networkSwitches[0])
+        self.addLink(self.networkHosts[0], self.networkSwitches[0], bw=10)
         print('h1 -> s1', self.port('h1', 's1'))
-        self.addLink(self.networkHosts[1], self.networkSwitches[0])
+        self.addLink(self.networkHosts[1], self.networkSwitches[0], bw=10)
         print('h2 -> s1', self.port('h2', 's1'))
 
-        self.addLink(self.networkSwitches[0], self.networkSwitches[1])
+        self.addLink(self.networkSwitches[0], self.networkSwitches[1], bw=10)
         print('s1 -> s2', self.port('s1', 's2'))
-        self.addLink(self.networkSwitches[0], self.networkSwitches[2])
+        self.addLink(self.networkSwitches[0], self.networkSwitches[2], bw=10)
         print('s1 -> s3', self.port('s1', 's3'))
-        self.addLink(self.networkSwitches[0], self.networkSwitches[3])
+        self.addLink(self.networkSwitches[0], self.networkSwitches[3], bw=10)
         print('s1 -> s4', self.port('s1', 's4'))
 
-        self.addLink(self.networkSwitches[1], self.networkSwitches[4])
+        self.addLink(self.networkSwitches[1], self.networkSwitches[4], bw=10)
         print('s2 -> s5', self.port('s2', 's5'))
-        self.addLink(self.networkSwitches[2], self.networkSwitches[4])
+        self.addLink(self.networkSwitches[2], self.networkSwitches[4], bw=10)
         print('s3 -> s5', self.port('s3', 's5'))
-        self.addLink(self.networkSwitches[3], self.networkSwitches[4])
+        self.addLink(self.networkSwitches[3], self.networkSwitches[4], bw=10)
         print('s4 -> s5', self.port('s4', 's5'))
 
-        self.addLink(self.networkHosts[2], self.networkSwitches[4])
+        self.addLink(self.networkHosts[2], self.networkSwitches[4], bw=10)
         print('s5 -> h3', self.port('s5', 'h3'))
-        self.addLink(self.networkHosts[3], self.networkSwitches[4])
+        self.addLink(self.networkHosts[3], self.networkSwitches[4], bw=10)
         print('s5 -> h4', self.port('s5', 'h4'))
 
 def get_args():
@@ -100,7 +101,7 @@ def run_network(network):
 def main():
     args = get_args()
     topo = ProbabilisticMultipathTopo(args.behavioral_exe, args.thrift_port, args.pcap_dump)
-    net = Mininet(topo = topo, host = P4Host, switch = P4Switch, controller = None)
+    net = Mininet(topo = topo, host = P4Host, switch = P4Switch, controller = None, link = TCLink)
     net.start()
 
     initialize_routes(net)

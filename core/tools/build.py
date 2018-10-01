@@ -23,7 +23,7 @@ def install_bmv2():
 	commands = [
 		["bash", "install_deps.sh"],
 		["bash", "autogen.sh"],
-		["bash", "configure"],
+		["bash", "configure", "--enable-debugger"],
 		["make"],
 		["sudo", "make", "install"]
 	]
