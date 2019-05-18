@@ -8,10 +8,10 @@ table_add mp_probability_meta set_probability_handle 10.0.0.10 10.0.2.10 => 0b00
 table_add mp_probability_meta set_probability_handle 10.0.0.10 10.0.3.10 => 0b00000011001100100010100000001010
 table_add mp_probability_meta set_probability_handle 10.0.1.10 10.0.2.10 => 0b00000011000111100011001000010100
 table_add mp_probability_meta set_probability_handle 10.0.1.10 10.0.3.10 => 0b00000011001010000010100000010100
-table_add mp_maxflow_meta set_maxflow_handle 10.0.0.10 10.0.2.10 => 0b00000000000000000000000000000010
-table_add mp_maxflow_meta set_maxflow_handle 10.0.0.10 10.0.3.10 => 0b00000000000000000000000000000010
-table_add mp_maxflow_meta set_maxflow_handle 10.0.1.10 10.0.2.10 => 0b00000000000000000000000000000010
-table_add mp_maxflow_meta set_maxflow_handle 10.0.1.10 10.0.3.10 => 0b00000000000000000000000000000010
+table_add mp_maxflow_meta set_maxflow_handle 10.0.0.10 10.0.2.10 => 0b00000000000000000000000000000001
+table_add mp_maxflow_meta set_maxflow_handle 10.0.0.10 10.0.3.10 => 0b00000000000000000000000000000001
+table_add mp_maxflow_meta set_maxflow_handle 10.0.1.10 10.0.2.10 => 0b00000000000000000000000000000001
+table_add mp_maxflow_meta set_maxflow_handle 10.0.1.10 10.0.3.10 => 0b00000000000000000000000000000001
 act_prof_create_group mp_profile
 act_prof_create_member mp_profile _nop
 act_prof_create_member mp_profile set_mp_port 3
