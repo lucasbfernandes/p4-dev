@@ -1,0 +1,12 @@
+table_add process_path count_path 10.0.0.10 10.0.2.10 => 0
+table_add process_path count_path 10.0.2.10 10.0.0.10 => 1
+table_add process_path count_path 10.0.0.10 10.0.3.10 => 2
+table_add process_path count_path 10.0.3.10 10.0.0.10 => 3
+table_add process_path count_path 10.0.1.10 10.0.2.10 => 4
+table_add process_path count_path 10.0.2.10 10.0.1.10 => 5
+table_add process_path count_path 10.0.1.10 10.0.3.10 => 6
+table_add process_path count_path 10.0.3.10 10.0.1.10 => 7
+table_add forward set_destination 10.0.0.10 => 00:04:00:00:00:00 1
+table_add forward set_destination 10.0.1.10 => 00:04:00:00:00:01 1
+table_add forward set_destination 10.0.2.10 => 00:04:00:00:00:02 2
+table_add forward set_destination 10.0.3.10 => 00:04:00:00:00:03 2

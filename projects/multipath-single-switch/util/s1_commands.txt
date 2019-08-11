@@ -1,0 +1,24 @@
+table_add mp_set_dmac set_dmac 10.0.0.10 => 00:04:00:00:00:00
+table_add mp_set_dmac set_dmac 10.0.1.10 => 00:04:00:00:00:01
+table_add mp_set_dmac set_dmac 10.0.2.10 => 00:04:00:00:00:02
+table_add mp_set_dmac set_dmac 10.0.3.10 => 00:04:00:00:00:03
+table_add mp_regular_forward set_mp_port 10.0.0.10 => 1
+table_add mp_regular_forward set_mp_port 10.0.1.10 => 2
+table_add mp_compute_meta set_meta_handle 10.0.0.10 10.0.2.10 => 0b00000011000111100001111000101000
+table_add mp_compute_meta set_meta_handle 10.0.0.10 10.0.3.10 => 0b00000011001100100010100000001010
+table_add mp_compute_meta set_meta_handle 10.0.1.10 10.0.2.10 => 0b00000011000111100011001000010100
+table_add mp_compute_meta set_meta_handle 10.0.1.10 10.0.3.10 => 0b00000011001010000010100000010100
+act_prof_create_group mp_profile
+act_prof_create_member mp_profile _nop
+act_prof_create_member mp_profile set_mp_port 3
+act_prof_create_member mp_profile set_mp_port 4
+act_prof_create_member mp_profile set_mp_port 5
+act_prof_add_member_to_group mp_profile 1 0
+act_prof_add_member_to_group mp_profile 2 0
+act_prof_add_member_to_group mp_profile 3 0
+table_indirect_set_default mp_profile_forward 0
+table_indirect_add_with_group mp_profile_forward 10.0.0.10 10.0.2.10 => 0
+table_indirect_add_with_group mp_profile_forward 10.0.0.10 10.0.3.10 => 0
+table_indirect_add_with_group mp_profile_forward 10.0.1.10 10.0.2.10 => 0
+table_indirect_add_with_group mp_profile_forward 10.0.1.10 10.0.3.10 => 0
+table_dump mp_profile_forward

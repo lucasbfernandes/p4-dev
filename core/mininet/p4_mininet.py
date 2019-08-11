@@ -59,11 +59,12 @@ class P4Switch(Switch):
                  log_console = False,
                  verbose = False,
                  device_id = None,
-                 enable_debugger = False,
+                 enable_debugger = True,
                  **kwargs):
         Switch.__init__(self, name, **kwargs)
         assert(sw_path)
         assert(json_path)
+
         # make sure that the provided sw_path is valid
         pathCheck(sw_path)
         # make sure that the provided JSON file exists
