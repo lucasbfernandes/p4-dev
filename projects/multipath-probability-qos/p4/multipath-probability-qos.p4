@@ -44,14 +44,14 @@ action set_mp_regular_port(port) {
     modify_field(standard_metadata.egress_spec, port);
 }
 
-action_profile mp_profile {
+action_profile action_profile_demo {
     actions {
-        _nop;
-        _drop;
-        set_mp_port;
+        action1;
+        action2;
+        action3;
     }
     size : 1024;
-    dynamic_action_selection : mp_action_selector;
+    dynamic_action_selection : action_selector_demo;
 }
 
 table mp_profile_forward {
